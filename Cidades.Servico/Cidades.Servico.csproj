@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interface\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cidades.Dominio\Cidades.Dominio.csproj" />
+    <ProjectReference Include="..\Cidades.Persistencia\Cidades.Persistencia.csproj" />
+  </ItemGroup>
+
+</Project>
