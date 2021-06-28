@@ -44,6 +44,7 @@ Cenário de Testes:
 <h3>API de Cidades:</h3>
 Para atender a especificação foi construida uma API em .NET Core 5 utilizando sqlite para armazenar os dados das cidades e dos usuários. Utilizei estrutura em camadas e utilizei injeção de dependência e criptografia da senha do usuário.
 
+
 **Específicação:** 
 
 - Uma funcionalidade para fazer login.
@@ -70,9 +71,7 @@ Para atender a especificação foi construida uma API em .NET Core 5 utilizando 
 `TOKEN`
 
 Verbo: POST
-
 URL: https://localhost:44391/api/login/token
-
 Função: Obter o token para autenticação na API
 
 Parâmetros de Entrada:
