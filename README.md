@@ -71,7 +71,9 @@ Para atender a especificação foi construida uma API em .NET Core 5 utilizando 
 `TOKEN`
 
 Verbo: POST
+
 URL: https://localhost:44391/api/login/token
+
 Função: Obter o token para autenticação na API
 
 Parâmetros de Entrada:
@@ -82,7 +84,9 @@ Parâmetros de Entrada:
 }
 ```
 Retorno:
+
 Status Code: 200
+
 ```json
 {
     "usuario": {
@@ -96,9 +100,13 @@ Status Code: 200
 ```
 
 `Cadastro de Usuário`
+
 Verbo: POST
+
 URL: https://localhost:44391/api/login
+
 Função: Cadastrar um novo usuário na API
+
 Parâmetros de Entrada:
 ```json
 {
@@ -108,7 +116,9 @@ Parâmetros de Entrada:
 }
 ```
 Retorno:
+
 Status Code: 200
+
 ```json
 {
     "id": 3,
@@ -119,11 +129,17 @@ Status Code: 200
 ```
 
 `Alteração de Usuário`
+
 Verbo: PUT
+
 URL: https://localhost:44391/api/login/{id}
+
 Função: Alterar os dados do Usuário
+
 Parâmetros de Entrada:
+
 Precisa informar o id do usuário além do json com os dados modificados conforme abaixo:
+
 ```json
 {
   "id": 3,
@@ -132,8 +148,11 @@ Precisa informar o id do usuário além do json com os dados modificados conform
   "role": "Administrador"
 }
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```json
 {
     "id": 3,
@@ -144,14 +163,22 @@ Status Code: 200
 ```
 
 `Exclusão do Usuário`
+
 Verbo: DELETE
+
 URL: https://localhost:44391/api/login/{id}
+
 Função: Excluir o Usuário
+
 Parâmetros de Entrada:
+```
 Precisa informar o id do usuário
+```
 
 Retorno:
+
 Status Code: 200
+
 ```
 Excluído com sucesso
 ```
@@ -160,10 +187,15 @@ Excluído com sucesso
 **Cidade**
 
 `Cadastro de Cidade`
+
 Verbo: POST
+
 URL: https://localhost:44391/api/cidade
+
 Função: Cadastrar uma nova cidade na API
+
 Parâmetros de Entrada:
+
 ```json
 {
 	"nome": "Mongagua",
@@ -181,8 +213,11 @@ Parâmetros de Entrada:
 	]
 }
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```json
 {
     "id": 5,
@@ -209,11 +244,17 @@ Status Code: 200
 ```
 
 `Alteração de Cidade`
+
 Verbo: PUT
+
 URL: https://localhost:44391/api/cidade/{id}
+
 Função: Alterar os dados da Cidade
+
 Parâmetros de Entrada:
+
 Precisa informar o id da cidade além do json com os dados modificados conforme abaixo:
+
 ```json
 {
   "id": 6,
@@ -238,8 +279,11 @@ Precisa informar o id da cidade além do json com os dados modificados conforme 
   ]
 }
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```json
 {
   "id": 6,
@@ -266,29 +310,45 @@ Status Code: 200
 ```
 
 `Exclusão da Cidade`
+
 Verbo: DELETE
+
 URL: https://localhost:44391/api/cidade/{id}
+
 Função: Excluir a Cidade
+
 Parâmetros de Entrada:
+
 ```
 Precisa informar o id da cidade
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```
 Excluído com sucesso
 ```
 
 `Buscar todas as Cidades`
+
 Verbo: GET
+
 URL: https://localhost:44391/api/cidade/
+
 Função: Retornar todas as cidades cadastradas
+
 Parâmetros de Entrada:
+
 ```
 Não há
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```json
 [
   {
@@ -384,15 +444,23 @@ Status Code: 200
 ```
 
 `Buscar Cidade por Id`
+
 Verbo: GET
+
 URL: https://localhost:44391/api/cidade/{id}
+
 Função: Buscar uma cidade pelo id
+
 Parâmetros de Entrada:
+
 ```
 Precisa informar o id da cidade
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```json
 {
     "id": 4,
@@ -419,15 +487,23 @@ Status Code: 200
 ```
 
 `Buscar Cidade por Nome`
+
 Verbo: GET
+
 URL: https://localhost:44391/api/cidade/nome/{nome}
+
 Função: Buscar uma cidade pelo nome ou parte do nome
+
 Parâmetros de Entrada:
+
 ```
 Precisa informar o nome da cidade ou parte do nome por exemplo: Santos ou San
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```json
 {
     "id": 4,
@@ -454,15 +530,23 @@ Status Code: 200
 ```
 
 `Buscar Fronteiras da Cidade`
+
 Verbo: GET
+
 URL: https://localhost:44391/api/cidade/fronteiras/{cidadeNome}
+
 Função: Buscar uma cidade pelo nome ou parte do nome
+
 Parâmetros de Entrada:
+
 ```
 Precisa informar o nome da cidade ou parte do nome por exemplo: Santos ou San
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```json
 [
     {
@@ -491,37 +575,55 @@ Status Code: 200
 ```
 
 `Número de Habitantes`
+
 Verbo: POST
+
 URL: https://localhost:44391/api/cidade/habitantes
+
 Função: Buscar o número de habitantes das cidades informadas via parâmetro
+
 Parâmetros de Entrada:
+
 ```
 [
 	1,2,3
 ]
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```
 A soma de habitantes das cidades: Praia Grande, São Vicente, Itanhaém é de: 753.597
 ```
 
 `Rotas`
+
 Verbo: GET
+
 URL: https://localhost:44391/api/cidade/rotas/{id}
+
 Função: Retorna as rotas possíveis de acordo com a cidade de origem informada pelo Id
+
 Parâmetros de Entrada:
+
 ```
 Precisa informar o id da cidade
 ```
+
 Retorno:
+
 Status Code: 200
+
 ```
 Saindo de Santos você pode ir para São Vicente, Guarujá e Cubatão
 ```
 
 <h3>Schemas</h3>
+
 **Usuario**
+
 ```json
 {
 	id	integer($int32)
@@ -532,6 +634,7 @@ Saindo de Santos você pode ir para São Vicente, Guarujá e Cubatão
 ```
 
 **Cidade**
+
 ```json
 {
 	id	integer($int32)
@@ -542,6 +645,7 @@ Saindo de Santos você pode ir para São Vicente, Guarujá e Cubatão
 ```
 
 **Fronteira**
+
 ```json
 {
 	id	integer($int32)
@@ -554,6 +658,7 @@ Saindo de Santos você pode ir para São Vicente, Guarujá e Cubatão
 <h3>Observações da implementação</h3>
 
 Para esta solução há alguns pontos a serem melhorados que não foram implementados por questão do tempo são elas:
+
 - Faltou implementar algumas consistências como campos nulos verificar valores, etc.
 - Implementar o Model da camada da API afim de preservar a modelagem interna.
 - Ao implementar o model na camada da API usar o AutoMapper para fazer as conversões
