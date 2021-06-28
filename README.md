@@ -45,7 +45,8 @@ Cenário de Testes:
 Para atender a especificação foi construida uma API em .NET Core 5 utilizando sqlite para armazenar os dados das cidades e dos usuários. Utilizei estrutura em camadas e utilizei injeção de dependência e criptografia da senha do usuário.
 
 **Específicação:** 
-*- Uma funcionalidade para fazer login.
+
+- Uma funcionalidade para fazer login.
 - Uma funcionalidade para cadastrar novas cidades:
   - As cidades devem contar no mínimo com:
     - Um nome e uma estrutura que diga com quem ela faz fronteira
@@ -63,12 +64,17 @@ Para atender a especificação foi construida uma API em .NET Core 5 utilizando 
   - Ex: sair de cidade Buenos aires e ir até a cidade Florianópolis*
   
 <h5>Solução:</h5> 
+
 **Login**
 
 `TOKEN`
+
 Verbo: POST
+
 URL: https://localhost:44391/api/login/token
+
 Função: Obter o token para autenticação na API
+
 Parâmetros de Entrada:
 ```json
 {
