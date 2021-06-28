@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algoritmos", "Algoritmos\Algoritmos.csproj", "{C5AC05FB-BFB4-45F1-82B2-52E19EAF8F0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algoritmos", "Algoritmos\Algoritmos.csproj", "{C5AC05FB-BFB4-45F1-82B2-52E19EAF8F0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CidadesDominio", "Cidades.Dominio\Cidades.Dominio.csproj", "{840DBC7F-FB36-4F34-AC13-BDA144D600E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cidades.Dominio", "Cidades.Dominio\Cidades.Dominio.csproj", "{840DBC7F-FB36-4F34-AC13-BDA144D600E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CidadesPersistencia", "Cidades.Persistencia\Cidades.Persistencia.csproj", "{6599D739-C814-41CB-9CE9-A1D9B86BA697}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cidades.Persistencia", "Cidades.Persistencia\Cidades.Persistencia.csproj", "{6599D739-C814-41CB-9CE9-A1D9B86BA697}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CidadesServico", "Cidades.Servico\Cidades.Servico.csproj", "{AC45C3BF-6863-438F-BD44-138A984A4349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cidades.Servico", "Cidades.Servico\Cidades.Servico.csproj", "{AC45C3BF-6863-438F-BD44-138A984A4349}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cidades.API", "Cidades.API\Cidades.API.csproj", "{73F0B9DE-8F16-4251-9C80-8B199785274F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cidades.API", "Cidades.API\Cidades.API.csproj", "{73F0B9DE-8F16-4251-9C80-8B199785274F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

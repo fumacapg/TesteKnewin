@@ -1,6 +1,6 @@
-﻿using Cidades.API.Model;
-using Cidades.Dominio;
+﻿using Cidades.Dominio;
 using Cidades.Servico.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +21,7 @@ namespace Cidades.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             try
@@ -37,6 +38,7 @@ namespace Cidades.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -53,6 +55,7 @@ namespace Cidades.API.Controllers
         }
 
         [HttpGet("nome/{nome}")]
+        [Authorize]
         public async Task<IActionResult> GetByNome(string nome)
         {
             try
@@ -68,28 +71,32 @@ namespace Cidades.API.Controllers
             }
         }
 
-        [HttpGet("fronteiras/{id}")]
-        public async Task<IActionResult> GetFronteiras(int id)
+        [HttpGet("fronteiras/{cidadeNome}")]
+        [Authorize]
+        public async Task<IActionResult> GetFronteiras(string cidadeNome)
         {
             try
             {
-                var cidades = await _cidadeServico.GetFronteirasAsync(id, true);
+                var cidades = await _cidadeServico.GetFronteirasAsync(cidadeNome, true);
                 if (cidades == null)
-                    return NotFound($"Nenhuma fronteira encontrada para a cidade com id: {id}");
+                    return NotFound($"Nenhuma fronteira encontrada para a cidade {cidadeNome.ToUpper()}");
                 return Ok(cidades);
             }
             catch (Exception e)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar as fronteiras da cidade id: {id}. Erro: {e.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar as fronteiras da cidade: {cidadeNome.ToUpper()}. Erro: {e.Message}");
             }
         }
 
         [HttpPost("habitantes")]
+        [Authorize]
         public async Task<IActionResult> GetNumeroHabitantes(int[] cidades)
         {
             try
             {
                 var habitantes = await _cidadeServico.GetNumeroHabitantesAsync(cidades);
+                if(String.IsNullOrEmpty(habitantes))
+                    return NotFound($"Nenhuma das cidades ({string.Join(", ", cidades)}) foi encontrada");
                 return Ok(habitantes);
             }
             catch (Exception e)
@@ -98,7 +105,25 @@ namespace Cidades.API.Controllers
             }
         }
 
+        [HttpGet("rotas/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetRotas(int id)
+        {
+            try
+            {
+                var retorno = await _cidadeServico.GetRotasAsync(id);
+                if (String.IsNullOrEmpty(retorno))
+                    return NotFound($"Nenhuma cidade encontrada com o id: {id}");
+                return Ok(retorno);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar as fronteiras da cidade id: {id}. Erro: {e.Message}");
+            }
+        }
+
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post(Cidade model)
         {
             try
@@ -115,6 +140,7 @@ namespace Cidades.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Put(int id, Cidade model)
         {
             try
@@ -131,6 +157,7 @@ namespace Cidades.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             try

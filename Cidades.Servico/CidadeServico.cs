@@ -13,20 +13,22 @@ namespace Cidades.Servico
     public class CidadeServico : ICidadeServico
     {
         private readonly ICidadePersistencia _cidadePersistencia;
+        private readonly IPadraoPersistencia _padraoPersistencia;
 
-        public CidadeServico(ICidadePersistencia cidadePersistencia)
+        public CidadeServico(ICidadePersistencia cidadePersistencia, IPadraoPersistencia padraoPersistencia)
         {
             _cidadePersistencia = cidadePersistencia;
+            _padraoPersistencia = padraoPersistencia;
         }
 
         public async Task<Cidade> AddCidades(Cidade model)
         {
             try
             {
-                _cidadePersistencia.Add(model);
-                if (await _cidadePersistencia.SaveChangesAsync())
+                _padraoPersistencia.Add(model);
+                if (await _padraoPersistencia.SaveChangesAsync())
                 {
-                    return await _cidadePersistencia.GetCidadesPorIdAsync(model.Id, false);
+                    return await _cidadePersistencia.GetCidadesPorIdAsync(model.Id, true);
                 }
                 return null;
             }
@@ -46,8 +48,8 @@ namespace Cidades.Servico
 
                 model.Id = cidade.Id;
 
-                _cidadePersistencia.Update(model);
-                if (await _cidadePersistencia.SaveChangesAsync())
+                _padraoPersistencia.Update(model);
+                if (await _padraoPersistencia.SaveChangesAsync())
                 {
                     return await _cidadePersistencia.GetCidadesPorIdAsync(model.Id, false);
                 }
@@ -68,8 +70,8 @@ namespace Cidades.Servico
                 if (cidade == null)
                     throw new Exception($"A Cidade: {cidadeId} não foi localizada para exclusão");
 
-                _cidadePersistencia.Delete(cidade);
-                return await _cidadePersistencia.SaveChangesAsync();
+                _padraoPersistencia.Delete(cidade);
+                return await _padraoPersistencia.SaveChangesAsync();
 
             }
             catch (Exception e)
@@ -83,7 +85,7 @@ namespace Cidades.Servico
             try
             {
                 var cidades = await _cidadePersistencia.GetAllCidadesAsync(includeFronteiras);
-                if (cidades == null) return null;
+                if (cidades == null || !cidades.Any()) return null;
                 return cidades;
             }
             catch (Exception e)
@@ -111,7 +113,7 @@ namespace Cidades.Servico
             try
             {
                 var cidades = await _cidadePersistencia.GetCidadesPorNomeAsync(nome, includeFronteiras);
-                if (cidades == null) return null;
+                if (cidades == null || !cidades.Any()) return null;
                 return cidades;
             }
             catch (Exception e)
@@ -120,11 +122,11 @@ namespace Cidades.Servico
             }
         }
 
-        public async Task<Cidade[]> GetFronteirasAsync(int cidadeOrigemId, bool includeFronteiras = false)
+        public async Task<Cidade[]> GetFronteirasAsync(string cidade, bool includeFronteiras = false)
         {
             try
             {
-                var cidades = await _cidadePersistencia.GetFronteirasAsync(cidadeOrigemId, includeFronteiras);
+                var cidades = await _cidadePersistencia.GetFronteirasAsync(cidade, includeFronteiras);
                 if (cidades == null || !cidades.Any()) return null;                
                 return cidades;
             }
@@ -156,6 +158,8 @@ namespace Cidades.Servico
                         cidades.Add(cidade);
                     }
                 }
+                if (String.IsNullOrEmpty(cidadesEncontradas))
+                    return null;
                 var retorno = $"{cidadesEncontradas[0..^2]} é de: {string.Format("{0:0,0}", cidades.Sum(c => c.NumeroHabitantes))}\n{cidadesNaoEncontradas}";
                 return retorno;
             }
@@ -176,12 +180,19 @@ namespace Cidades.Servico
                 {
                     string retorno = $"Saindo de {cidade.Nome} você pode ir para ";
 
+                    Fronteira ultimo = cidade.Fronteiras.Last();
+
                     foreach (Fronteira fronteira in cidade.Fronteiras)
                     {
-                        retorno += $"{fronteira.CidadeFronteira.Nome}, ";
+                        if(fronteira == ultimo)
+                        {
+                            retorno = retorno[0..^2] + $" e {fronteira.CidadeFronteira}";
+                        }
+                        else
+                            retorno += $"{fronteira.CidadeFronteira}, ";
                     }
 
-                    return retorno[0..^2];
+                    return retorno;
                 }
                 else
                     return $"A cidade de {cidade.Nome} não permite que se chegue a lugar algum";
@@ -190,8 +201,6 @@ namespace Cidades.Servico
             {
                 throw new Exception(e.Message);
             }
-        }
-
-        
+        }        
     }
 }

@@ -15,7 +15,7 @@ namespace Cidades.Servico.Interface
         Task<Cidade[]> GetAllCidadesAsync(bool includeFronteiras = false);
         Task<Cidade> GetCidadesPorIdAsync(int cidadeId, bool includeFronteiras = false);
         Task<Cidade[]> GetCidadesPorNomeAsync(string nome, bool includeFronteiras = false);
-        Task<Cidade[]> GetFronteirasAsync(int cidadeOrigemId, bool includeFronteiras = false);
+        Task<Cidade[]> GetFronteirasAsync(string cidade, bool includeFronteiras = false);
         Task<string> GetNumeroHabitantesAsync(int[] cidadesId);
         Task<string> GetRotasAsync(int cidadeId);
     }

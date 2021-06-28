@@ -17,34 +17,14 @@ namespace Cidades.Persistencia
         public CidadePersistencia(Context context)
         {
             _context = context;
-        }
-
-        public void Add(Cidade entity)
-        {
-            _context.Add(entity);
-        }
-
-        public void Update(Cidade entity)
-        {
-            _context.Update(entity);
-        }
-
-        public void Delete(Cidade entity)
-        {
-            _context.Remove(entity);
-        }
-
-        public async Task<bool> SaveChangesAsync()
-        {
-            return (await _context.SaveChangesAsync()) > 0;
-        }
+        }        
 
         public async Task<Cidade[]> GetAllCidadesAsync(bool includeFronteiras = false)
         {
-            IQueryable<Cidade> query = _context.Cidades;
+            IQueryable<Cidade> query = _context.Cidades.AsNoTrackingWithIdentityResolution();
 
             if (includeFronteiras)
-                query = query.Include(c => c.Fronteiras).ThenInclude(f => f.CidadeFronteira);
+                query = query.Include(c => c.Fronteiras).ThenInclude(f => f.Cidade);
 
             query = query.OrderBy(c => c.Id);
 
@@ -53,36 +33,36 @@ namespace Cidades.Persistencia
 
         public async Task<Cidade> GetCidadesPorIdAsync(int cidadeId, bool includeFronteiras = false)
         {
-            IQueryable<Cidade> query = _context.Cidades;
+            IQueryable<Cidade> query = _context.Cidades.AsNoTrackingWithIdentityResolution();
 
             if (includeFronteiras)
-                query = query.Include(c => c.Fronteiras).ThenInclude(f => f.CidadeFronteira);
+                query = query.Include(c => c.Fronteiras).ThenInclude(f => f.Cidade);
 
-            query = query.AsNoTracking().OrderBy(c => c.Id).Where(c => c.Id == cidadeId);
+            query = query.OrderBy(c => c.Id).Where(c => c.Id == cidadeId);
 
             return await query.FirstOrDefaultAsync();
         }
 
         public async Task<Cidade[]> GetCidadesPorNomeAsync(string nome, bool includeFronteiras = false)
         {
-            IQueryable<Cidade> query = _context.Cidades;
+            IQueryable<Cidade> query = _context.Cidades.AsNoTrackingWithIdentityResolution();
 
             if (includeFronteiras)
-                query = query.Include(c => c.Fronteiras).ThenInclude(f => f.CidadeFronteira);
+                query = query.Include(c => c.Fronteiras).ThenInclude(f => f.Cidade);
 
             query = query.OrderBy(c => c.Id).Where(c => c.Nome.ToLower().Contains(nome.ToLower()));
 
             return await query.ToArrayAsync();
         }
 
-        public async Task<Cidade[]> GetFronteirasAsync(int cidadeOrigemId, bool includeFronteiras = false)
+        public async Task<Cidade[]> GetFronteirasAsync(string cidade, bool includeFronteiras = false)
         {
-            IQueryable<Cidade> query = _context.Cidades;
+            IQueryable<Cidade> query = _context.Cidades.AsNoTrackingWithIdentityResolution();
 
             if (includeFronteiras)
-                query = query.Include(c => c.Fronteiras).ThenInclude(f => f.CidadeFronteira);
+                query = query.Include(c => c.Fronteiras).ThenInclude(f => f.Cidade);
 
-            query = query.OrderBy(c => c.Id).Where(c => c.Origens.Any(f => f.CidadeOrigemId == cidadeOrigemId));
+            query = query.OrderBy(c => c.Id).Where(c => c.Fronteiras.Any(f => f.CidadeFronteira.ToLower().Contains(cidade)));
 
             return await query.ToArrayAsync();
         }

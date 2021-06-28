@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cidades.Persistencia.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210626230007_Inicial")]
-    partial class Inicial
+    [Migration("20210628012519_Usuarios")]
+    partial class Usuarios
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,43 +36,57 @@ namespace Cidades.Persistencia.Migrations
 
             modelBuilder.Entity("Cidades.Dominio.Fronteira", b =>
                 {
-                    b.Property<int>("CidadeOrigemId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CidadeFronteiraId")
+                    b.Property<string>("CidadeFronteira")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CidadeId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("CidadeOrigemId", "CidadeFronteiraId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CidadeFronteiraId");
+                    b.HasIndex("CidadeId");
 
                     b.ToTable("Fronteiras");
                 });
 
+            modelBuilder.Entity("Cidades.Dominio.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Login")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Senha")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios");
+                });
+
             modelBuilder.Entity("Cidades.Dominio.Fronteira", b =>
                 {
-                    b.HasOne("Cidades.Dominio.Cidade", "CidadeFronteira")
+                    b.HasOne("Cidades.Dominio.Cidade", "Cidade")
                         .WithMany("Fronteiras")
-                        .HasForeignKey("CidadeFronteiraId")
+                        .HasForeignKey("CidadeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cidades.Dominio.Cidade", "CidadeOrigem")
-                        .WithMany("Origens")
-                        .HasForeignKey("CidadeOrigemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CidadeFronteira");
-
-                    b.Navigation("CidadeOrigem");
+                    b.Navigation("Cidade");
                 });
 
             modelBuilder.Entity("Cidades.Dominio.Cidade", b =>
                 {
                     b.Navigation("Fronteiras");
-
-                    b.Navigation("Origens");
                 });
 #pragma warning restore 612, 618
         }

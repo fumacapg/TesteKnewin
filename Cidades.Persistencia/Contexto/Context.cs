@@ -13,6 +13,8 @@ namespace Cidades.Persistencia.Contexto
 
         public DbSet<Fronteira> Fronteiras { get; set; }
 
+        public DbSet<Usuario> Usuarios { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<Cidade>()
@@ -20,16 +22,10 @@ namespace Cidades.Persistencia.Contexto
             //    .WithMany(c => c.Fronteiras)
             //    .HasForeignKey(c => c.CidadeId);
 
-            modelBuilder.Entity<Fronteira>()
-                .HasKey(f => new { f.CidadeOrigemId, f.CidadeFronteiraId });
-            modelBuilder.Entity<Fronteira>()
-                .HasOne(f => f.CidadeOrigem)
-                .WithMany(c => c.Fronteiras)
-                .HasForeignKey(f => f.CidadeOrigemId);
-            modelBuilder.Entity<Fronteira>()
-                .HasOne(f => f.CidadeFronteira)
-                .WithMany(c => c.Origens)
-                .HasForeignKey(f => f.CidadeFronteiraId);
+            modelBuilder.Entity<Cidade>()
+                .HasMany(c => c.Fronteiras)
+                .WithOne(f => f.Cidade)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

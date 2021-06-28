@@ -22,6 +22,6 @@ namespace Cidades.Dominio
         //public IEnumerable<Cidade> Fronteiras { get; set; }
 
         public IEnumerable<Fronteira> Fronteiras { get; set; }
-        public IEnumerable<Fronteira> Origens { get; set; }
+        //public IEnumerable<Fronteira> Origens { get; set; }
     }
 }

@@ -10,12 +10,12 @@ namespace Cidades.Dominio
 {
     public class Fronteira
     {
-        public int CidadeOrigemId { get; set; }
+        public int Id { get; set; }
 
-        public virtual Cidade CidadeOrigem { get; set; }
+        public string CidadeFronteira { get; set; }
 
-        public int CidadeFronteiraId { get; set; }
+        public int CidadeId { get; set; }
 
-        public virtual Cidade CidadeFronteira { get; set; }
+        public Cidade Cidade { get; set; }        
     }
 }

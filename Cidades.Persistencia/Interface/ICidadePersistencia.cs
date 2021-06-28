@@ -9,13 +9,9 @@ namespace Cidades.Persistencia.Interface
 {
     public interface ICidadePersistencia
     {
-        void Add(Cidade entity);
-        void Update(Cidade entity);
-        void Delete(Cidade entity);
-        Task<bool> SaveChangesAsync();
         Task<Cidade[]> GetAllCidadesAsync(bool includeFronteiras = false);
         Task<Cidade> GetCidadesPorIdAsync(int cidadeId, bool includeFronteiras = false);
         Task<Cidade[]> GetCidadesPorNomeAsync(string nome, bool includeFronteiras = false);
-        Task<Cidade[]> GetFronteirasAsync(int cidadeOrigemId, bool includeFronteiras = false);
+        Task<Cidade[]> GetFronteirasAsync(string cidade, bool includeFronteiras = false);
     }
 }

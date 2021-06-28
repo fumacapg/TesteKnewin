@@ -3,6 +3,9 @@ using Cidades.Persistencia.Contexto;
 using Cidades.Persistencia.Interface;
 using Cidades.Servico;
 using Cidades.Servico.Interface;
+using Cidades.Servico.Interface.Seguranca;
+using Cidades.Servico.Seguranca;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,10 +15,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Cidades.API
@@ -41,14 +46,38 @@ namespace Cidades.API
             );
 
             services.AddScoped<ICidadeServico, CidadeServico>();
+            services.AddScoped<IUsuarioServico, UsuarioServico>();
+            services.AddScoped<ITokenServico, TokenServico>();
 
+            services.AddScoped<IPadraoPersistencia, PadraoPersistencia>();
             services.AddScoped<ICidadePersistencia, CidadePersistencia>();
+            services.AddScoped<IUsuarioPersistencia, UsuarioPersistencia>();
 
             services.AddCors();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cidades.API", Version = "v1" });
+            });
+
+            var key = Encoding.ASCII.GetBytes(Configuracao.ChavePrivada);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
         }
 
@@ -65,6 +94,8 @@ namespace Cidades.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
